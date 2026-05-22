@@ -1,0 +1,29 @@
+{{- if .Params.showComments | default (.Site.Params.article.showComments | default false) }}
+<div id="remark42"></div>
+<script>
+  var remark_config = {
+    host: '{{ .Site.Params.remark42.host | default "https://comments.yourdomain.com" }}',
+    site_id: '{{ .Site.Params.remark42.siteId | default "yourdomain.com" }}',
+    components: ['embed'],
+    max_shown_comments: 20,
+    theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
+    locale: '{{ .Site.Language.Lang }}',
+    show_email_subscription: false,
+  };
+
+  // Watch for theme changes (Blowfish dark mode toggle)
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.attributeName === 'class') {
+        const isDark = document.documentElement.classList.contains('dark');
+        if (window.REMARK42) {
+          window.REMARK42.changeTheme(isDark ? 'dark' : 'light');
+        }
+      }
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true });
+
+  !function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script");r.src=remark_config.host+"/web/"+e[o]+".js",r.defer=!0,(n.head||n.body).appendChild(r)}}(remark_config.components||["embed"],document);
+</script>
+{{- end }}

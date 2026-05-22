@@ -1,0 +1,21 @@
+disabled = false
+languageCode = "zh-cn"
+languageName = "中文"
+weight = 1
+title = "Tao's Blog"
+
+[params]
+  displayName = "ZH"
+  isoCode = "zh"
+  dateFormat = "2006年1月2日"
+
+[params.author]
+  name = "Tao"
+  headline = "Tech & Film Photography"
+  bio = "写代码，拍胶片"
+  # image = "img/avatar.jpg"
+  # links = [
+  #   { github = "https://github.com/yourusername" },
+  #   { instagram = "https://instagram.com/yourusername" },
+  #   { email = "mailto:you@example.com" },
+  # ]

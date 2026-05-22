@@ -1,0 +1,22 @@
+services:
+  remark42:
+    image: umputun/remark42:latest
+    container_name: remark42
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./remark42-data:/srv/var
+    environment:
+      - REMARK_URL=https://comments.yourdomain.com
+      - SITE=yourdomain.com
+      - SECRET=change-this-to-a-random-secret-string
+      # GitHub OAuth (optional, recommended)
+      # - AUTH_GITHUB_CID=your-github-client-id
+      # - AUTH_GITHUB_CSEC=your-github-client-secret
+      # Google OAuth (optional)
+      # - AUTH_GOOGLE_CID=your-google-client-id
+      # - AUTH_GOOGLE_CSEC=your-google-client-secret
+      # Anonymous comments (set to true if you want)
+      - AUTH_ANON=true
+      - ADMIN_SHARED_ID=
