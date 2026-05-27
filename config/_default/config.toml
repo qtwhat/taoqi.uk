@@ -1,7 +1,8 @@
 # Hugo base configuration
 baseURL = "https://taoqi.uk/"
 defaultContentLanguage = "zh-cn"
-theme = "blowfish"
+# Custom theme lives directly under /layouts and /assets — no theme dir.
+# theme = "blowfish"
 
 enableRobotsTXT = true
 enableEmoji = true

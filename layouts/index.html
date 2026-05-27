@@ -1,0 +1,27 @@
+{{ define "main" }}
+<section class="home container">
+  <header class="home-header">
+    <h1 class="home-title">{{ site.Title }}</h1>
+    {{ with site.Params.author.bio }}
+      <p class="home-bio">{{ . }}</p>
+    {{ end }}
+  </header>
+
+  <ul class="post-list">
+    {{ $posts := where site.RegularPages "Section" "posts" }}
+    {{ range first 20 ($posts.ByDate.Reverse) }}
+      <li class="post-item">
+        <a class="post-link" href="{{ .RelPermalink }}">
+          <div class="post-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.dateFormat | default "Jan 2, 2006") }}</time>
+          </div>
+          <h2 class="post-title">{{ .Title }}</h2>
+          {{ with .Params.summary | default .Description }}
+            <p class="post-excerpt">{{ . }}</p>
+          {{ end }}
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}
