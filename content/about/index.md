@@ -1,6 +1,6 @@
 ---
 title: about
-description: 关于戚涛和这个 digital garden
+description: 关于 tao 和这个 digital garden
 showDate: false
 showReadingTime: false
 showTableOfContents: false
@@ -11,7 +11,7 @@ showComments: false
 
 我是 tao，base 在深圳。
 
-主业是 3GPP 6G 无线通信标准，RAN2 Delegate。成电理工男，博士不务正业做了 liquid core optical fiber。
+主业是 3GPP 6G 无线通信标准，RAN2 Delegate。成电理工男，博士不务正业为了好玩去做了 [liquid core optical fiber](https://opg.optica.org/ol/abstract.cfm?uri=ol-41-20-4763)。
 
 工作之外：
 
@@ -23,11 +23,10 @@ showComments: false
 
 延续我 2015 年的 qtwhat.com（已停更）。副标题 "Iteration" 沿用过去：写出来不是终点，是开始改的起点。
 
-内容分三类：
+内容分两类：
 
 - `/notes` 技术随笔、工具记录、踩坑日志
-- `/photo` 胶片冲扫、器材笔记
-- `/life` 深圳生活、阅读札记、随想
+- `/photo` 胶片记录、器材笔记
 
 ## 联系
 
