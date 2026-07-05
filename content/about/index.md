@@ -1,16 +1,36 @@
 ---
-title: "About"
-description: "关于我"
+title: about
+description: 关于戚涛和这个 digital garden
 showDate: false
 showReadingTime: false
 showTableOfContents: false
 showComments: false
 ---
 
-# 关于我
+{{< figure src="bingtanghulu.jpg" alt="tao eating bing-tang-hulu, 2016" caption="*Me eating Bing-tang-hulu, Crispy Sugar-Coated Fruit (haws, yam, etc.) on a Stick. It's super sour and sweet, which makes a unique taste, just watch my face!*" >}}
 
-你好！欢迎来到我的博客。
+我是 tao，base 在深圳。
 
-我喜欢写代码和拍胶片。这里记录我的技术笔记、摄影作品和生活感悟。
+主业是 3GPP 6G 无线通信标准，RAN2 Delegate。成电理工男，博士不务正业做了 liquid core optical fiber。
 
-<!-- 在这里添加你的自我介绍 -->
+工作之外：
+
+- vibe coding（最近的个人项目：[composerV](https://github.com/qtwhat/composerV)）
+- 拍照（不是摄影，沉迷胶片和一次性成像）
+- Toastmasters（历任 Shenzhen Toastmasters：SAA / President / Treasurer / VPPR）
+
+## 这个博客
+
+延续我 2015 年的 qtwhat.com（已停更）。副标题 "Iteration" 沿用过去：写出来不是终点，是开始改的起点。
+
+内容分三类：
+
+- `/notes` 技术随笔、工具记录、踩坑日志
+- `/photo` 胶片冲扫、器材笔记
+- `/life` 深圳生活、阅读札记、随想
+
+## 联系
+
+- Email：<qtwhat@gmail.com>
+- GitHub：[qtwhat](https://github.com/qtwhat)
+- 微信 / X / Instagram：qtwhat
