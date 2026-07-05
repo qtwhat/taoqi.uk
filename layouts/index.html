@@ -1,9 +1,9 @@
 {{ define "main" }}
-<section class="home container">
+<section class="home">
   <header class="home-header">
     <h1 class="home-title">{{ site.Title }}</h1>
-    {{ with site.Params.author.bio }}
-      <p class="home-bio">{{ . }}</p>
+    {{ with site.Params.subtitle }}
+      <p class="home-subtitle">{{ . }}</p>
     {{ end }}
   </header>
 

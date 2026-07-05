@@ -1,8 +1,9 @@
 <footer class="site-footer">
-  <div class="container">
-    <div class="wave-separator" aria-hidden="true"></div>
-    <div class="footer-copyright">
-      {{ site.Params.author.name | default "Tao" }} © {{ now.Format "2006" }}.
-    </div>
+  <div class="footer-inner">
+    <span>© {{ now.Format "2006" }} <a href="{{ "/" | relURL }}">{{ site.Title }}</a></span>
+    {{ with site.Params.subtitle }}
+      <span> · </span>
+      <span>{{ . }}</span>
+    {{ end }}
   </div>
 </footer>

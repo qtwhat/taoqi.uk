@@ -1,5 +1,5 @@
 (function () {
-  var btn = document.querySelector('.theme-toggle');
+  var btn = document.querySelector('.theme-btn');
   if (!btn) return;
 
   function apply(theme) {

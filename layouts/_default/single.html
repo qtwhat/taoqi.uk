@@ -1,32 +1,84 @@
 {{ define "main" }}
-<article class="single">
-  <header class="single-header container">
-    {{ $showDate := ne .Params.showDate false }}
-    {{ if and $showDate (not .Date.IsZero) }}
-      <div class="single-meta">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.dateFormat | default "Jan 2, 2006") }}</time>
+<div class="article-layout">
+
+  {{/* Left: TOC (desktop only) */}}
+  {{ $hasToc := and (.Params.showTableOfContents | default false) (in .TableOfContents "<ul") }}
+  {{ if $hasToc }}
+  <aside class="toc-column" aria-label="目录">
+    <div class="toc-sticky">
+      <div class="toc-label">目录</div>
+      <div class="toc-list">
+        {{ .TableOfContents }}
+      </div>
+    </div>
+  </aside>
+  {{ else }}
+  <aside class="toc-column"></aside>
+  {{ end }}
+
+  {{/* Center: Article */}}
+  <article class="article-main">
+
+    {{/* Meta line */}}
+    <div class="article-meta">
+      {{ with .Params.categories }}
+        <span class="article-category">{{ index . 0 }}</span>
+      {{ end }}
+      {{ $showDate := ne .Params.showDate false }}
+      {{ if and $showDate (not .Date.IsZero) }}
+        <span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.dateFormat | default "Jan 2, 2006") }}</time></span>
+      {{ end }}
+    </div>
+
+    <h1 class="article-title">{{ .Title }}</h1>
+
+    {{ with .Params.summary | default .Description }}
+      <p class="article-excerpt">{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{/* Tags */}}
+    {{ with .Params.tags }}
+    <div class="tag-list">
+      {{ range . }}
+        <a href="{{ "tags/" | relURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    <div class="separator"></div>
+
+    {{/* Mobile TOC */}}
+    {{ if $hasToc }}
+    <details class="mobile-toc">
+      <summary>目录</summary>
+      <div class="toc-list">
+        {{ .TableOfContents }}
+      </div>
+    </details>
+    {{ end }}
+
+    {{/* Cover image */}}
+    {{ with .Resources.GetMatch "cover.*" }}
+      <figure>
+        <img src="{{ .RelPermalink }}" alt="{{ $.Title }}">
+      </figure>
+    {{ end }}
+
+    {{/* Content */}}
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    {{ if .Params.showComments | default false }}
+      <div style="margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--divider);">
+        {{ partial "comments.html" . }}
       </div>
     {{ end }}
-    <h1 class="single-title">{{ .Title }}</h1>
-    {{ with .Params.summary | default .Description }}
-      <div class="single-excerpt">{{ . | markdownify }}</div>
-    {{ end }}
-  </header>
 
-  {{ with .Resources.GetMatch "cover.*" }}
-    <figure class="single-cover container">
-      <img src="{{ .RelPermalink }}" alt="{{ $.Title }}">
-    </figure>
-  {{ end }}
+  </article>
 
-  <div class="single-content container">
-    {{ .Content }}
-  </div>
+  {{/* Right: notes column (placeholder for future marginal notes) */}}
+  <aside class="notes-column"></aside>
 
-  {{ if .Params.showComments | default false }}
-    <div class="single-comments container">
-      {{ partial "comments.html" . }}
-    </div>
-  {{ end }}
-</article>
+</div>
 {{ end }}

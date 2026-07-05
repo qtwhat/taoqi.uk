@@ -1,22 +1,22 @@
 # Navigation menus
 
 [[main]]
-  name = "Posts"
+  name = "posts"
   pageRef = "posts"
   weight = 10
 
 [[main]]
-  name = "Photography"
+  name = "photography"
   pageRef = "posts/photography"
   weight = 20
 
 [[main]]
-  name = "Tags"
+  name = "tags"
   pageRef = "tags"
   weight = 30
 
 [[main]]
-  name = "About"
+  name = "about"
   pageRef = "about"
   weight = 40
 
