@@ -2,19 +2,15 @@
 {{- $alt := .Get "alt" | default "" -}}
 {{- $caption := .Get "caption" -}}
 {{- $class := .Get "class" | default "" -}}
-{{- $wide := in $class "max-w-none" -}}
 {{- $resource := .Page.Resources.GetMatch $src -}}
-<figure{{ if $wide }} style="width:100vw;margin-left:calc(-50vw + 50%);max-width:none;"{{ end }}{{ with $class }} class="{{ . }}"{{ end }}>
+<figure{{ with $class }} class="{{ . }}"{{ end }}>
   <img
     class="my-0 rounded-md"
-    style="{{ if $wide }}width:100%;max-width:none;{{ end }}"
     src="{{ with $resource }}{{ .RelPermalink }}{{ else }}{{ $src | relURL }}{{ end }}"
     alt="{{ $alt }}"
     loading="lazy"
   />
   {{- with $caption }}
-  <figcaption style="text-align:center;font-size:0.875rem;color:#6b7280;margin-top:0.5rem;{{ if $wide }}max-width:680px;margin-left:auto;margin-right:auto;{{ end }}">
-    <p>{{ . | markdownify }}</p>
-  </figcaption>
+  <figcaption>{{ . | markdownify }}</figcaption>
   {{- end }}
 </figure>

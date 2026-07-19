@@ -24,7 +24,7 @@ showComments: false
 | Stage-3 freeze | 2028 年 12 月 | TSGs #122 |
 | ASN.1/OpenAPI freeze | 2029 年 3 月 | TSGs #123 |
 
-{{< figure src="timeline.svg" alt="3GPP Release 21 时间线" class="w-full max-w-none" caption="从 R20 6G Study 到 R21 normative work，各 RAN WG 错开一个季度。紫色高亮列为 RAN#115，承上启下的转折点。" >}}
+{{< figure src="timeline.svg" alt="3GPP Release 21 时间线" class="wide" caption="从 R20 6G Study 到 R21 normative work，各 RAN WG 错开一个季度。紫色高亮列为 RAN#115，承上启下的转折点。" >}}
 
 有 R20 做参照会更直观：R20 的 Stage-1 freeze 是 2025 年 6 月，ASN.1 freeze 是 2027 年 6 月。R21 对应的两个日期是 2027 年 3 月和 2029 年 3 月，整条线差不多往后平移了 21 个月。节奏本身没有变快，虽然这是要从 5G 跨到 6G 的一个 release。
 

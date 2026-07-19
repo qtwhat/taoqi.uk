@@ -341,8 +341,8 @@ body {
   margin: 32px 0;
 }
 .prose figure.wide {
-  margin-left: -80px;
-  margin-right: 0;
+  margin-left: 0;
+  margin-right: -180px;
 }
 .prose figure img {
   width: 100%;
