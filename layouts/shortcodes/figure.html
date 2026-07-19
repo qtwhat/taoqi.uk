@@ -1,0 +1,18 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" -}}
+{{- $class := .Get "class" | default "" -}}
+{{- $resource := .Page.Resources.GetMatch $src -}}
+<figure{{ with $class }} class="{{ . }}"{{ end }}>
+  <img
+    class="my-0 rounded-md{{ with $class }} {{ . }}{{ end }}"
+    src="{{ with $resource }}{{ .RelPermalink }}{{ else }}{{ $src | relURL }}{{ end }}"
+    alt="{{ $alt }}"
+    loading="lazy"
+  />
+  {{- with $caption }}
+  <figcaption style="text-align:center;font-size:0.875rem;color:#6b7280;margin-top:0.5rem;">
+    <p>{{ . | markdownify }}</p>
+  </figcaption>
+  {{- end }}
+</figure>
