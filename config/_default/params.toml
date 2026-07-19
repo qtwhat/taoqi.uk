@@ -5,3 +5,5 @@ description = "Tao 的个人博客 — 写代码、拍胶片、记录生活"
 # Date format used in templates (Go time layout)
 # Already defined per-language in languages.zh-cn.toml; this is a global fallback.
 dateFormat = "2006年1月2日"
+
+disableImageZoom = false
