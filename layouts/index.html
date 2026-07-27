@@ -8,7 +8,7 @@
   </header>
 
   <ul class="post-list">
-    {{ $posts := where site.RegularPages "Section" "posts" }}
+    {{ $posts := where site.RegularPages "Section" "in" (slice "posts" "visual-thinking") }}
     {{ range first 20 ($posts.ByDate.Reverse) }}
       <li class="post-item">
         <a class="post-link" href="{{ .RelPermalink }}">

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L1 vs L3 Measurement Pipeline</title>
+<style>
+:root {
+  --ivory:    #FAF9F5;
+  --paper:    #FFFFFF;
+  --slate:    #141413;
+  --clay:     #D97757;
+  --clay-d:   #B85C3E;
+  --oat:      #E3DACC;
+  --olive:    #788C5D;
+  --olive-l:  #E8EDDF;
+  --red:      #C5453A;
+  --red-l:    #FCEEED;
+  --blue:     #2563eb;
+  --blue-l:   #EFF6FF;
+  --purple:   #7C3AED;
+  --purple-l: #F3EEFF;
+  --gray-100: #F5F4EE;
+  --gray-150: #F0EEE6;
+  --gray-200: #E6E3DA;
+  --gray-300: #D1CFC5;
+  --gray-500: #87867F;
+  --gray-700: #3D3D3A;
+  --sans: "PingFang SC", -apple-system, "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); font-size: 14.5px; line-height: 1.7; color: var(--gray-700); background: var(--ivory); }
+
+.layout { display: grid; grid-template-columns: 200px 1fr; max-width: 1200px; margin: 0 auto; gap: 36px; padding: 32px 24px; }
+nav { position: sticky; top: 32px; align-self: start; max-height: calc(100vh - 64px); overflow-y: auto; }
+nav .nav-title { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-500); margin-bottom: 12px; }
+nav ul { list-style: none; }
+nav li { border-left: 2.5px solid transparent; }
+nav li.active { border-left-color: var(--clay); }
+nav a { display: block; padding: 4px 0 4px 12px; color: var(--gray-700); text-decoration: none; font-size: 12.5px; line-height: 1.5; }
+nav a:hover { color: var(--clay); }
+nav .divider { height: 1px; background: var(--gray-200); margin: 8px 0 8px 12px; }
+main { max-width: 900px; min-width: 0; }
+
+h1 { font-size: 24px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+.subtitle { font-size: 13.5px; color: var(--gray-500); margin-bottom: 28px; }
+h2 { font-size: 18px; font-weight: 600; color: var(--slate); margin-top: 48px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1.5px solid var(--gray-200); scroll-margin-top: 24px; }
+h3 { font-size: 15px; font-weight: 600; color: var(--slate); margin-top: 28px; margin-bottom: 10px; scroll-margin-top: 24px; }
+p { margin-bottom: 12px; }
+strong { color: var(--slate); font-weight: 600; }
+code { font-family: var(--mono); font-size: 0.9em; background: var(--gray-100); padding: 1px 5px; border-radius: 4px; }
+
+.tldr { border-left: 3.5px solid var(--clay); background: var(--paper); padding: 14px 18px; margin-bottom: 20px; border-radius: 0 8px 8px 0; font-size: 14px; }
+.tldr .label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--clay); display: block; margin-bottom: 4px; }
+
+blockquote { border-left: 3px solid var(--olive); background: var(--olive-l); padding: 10px 14px; margin: 12px 0; border-radius: 0 8px 8px 0; font-size: 13px; }
+.spec-ref { font-family: var(--mono); font-size: 11px; color: var(--gray-500); }
+
+/* Pipeline diagram */
+.pipeline { display: flex; align-items: stretch; gap: 0; margin: 24px 0 28px; overflow-x: auto; padding: 8px 0; }
+.pipe-block { flex: 1; min-width: 130px; padding: 14px 12px; border: 1.5px solid var(--gray-300); border-radius: 10px; position: relative; text-align: center; background: var(--paper); }
+.pipe-block .block-id { font-family: var(--mono); font-size: 10px; color: var(--gray-500); position: absolute; top: 4px; right: 8px; }
+.pipe-block .block-title { font-size: 13px; font-weight: 600; color: var(--slate); margin-bottom: 6px; }
+.pipe-block .block-detail { font-size: 11.5px; color: var(--gray-500); line-height: 1.5; }
+.pipe-block.phy { border-color: var(--blue); background: var(--blue-l); }
+.pipe-block.l1f { border-color: var(--blue); background: #f0f7ff; border-style: dashed; }
+.pipe-block.l3 { border-color: var(--clay); background: #FDF8F5; }
+.pipe-block.evt { border-color: var(--purple); background: var(--purple-l); }
+.pipe-block.rpt { border-color: var(--olive); background: var(--olive-l); }
+.pipe-arrow { display: flex; align-items: center; padding: 0 2px; color: var(--gray-300); font-size: 20px; flex-shrink: 0; }
+
+/* Comparison grid */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+.compare-card { border: 1.5px solid var(--gray-300); border-radius: 10px; padding: 16px; background: var(--paper); }
+.compare-card.l3-card { border-color: var(--clay); }
+.compare-card.l1-card { border-color: var(--blue); }
+.compare-card .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.compare-card .card-header .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.compare-card.l3-card .dot { background: var(--clay); }
+.compare-card.l1-card .dot { background: var(--blue); }
+.compare-card .card-header .card-title { font-size: 14px; font-weight: 600; color: var(--slate); }
+
+/* Stat row */
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+.stat-card { background: var(--paper); border: 1px solid var(--gray-200); border-radius: 8px; padding: 12px; text-align: center; }
+.stat-card .stat-val { font-size: 22px; font-weight: 700; color: var(--slate); }
+.stat-card .stat-label { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.stat-card.warn .stat-val { color: var(--red); }
+.stat-card.good .stat-val { color: var(--olive); }
+
+/* Step response chart (CSS-based bar chart) */
+.bar-chart { margin: 16px 0; }
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.bar-row .bar-label { width: 80px; font-size: 12px; color: var(--gray-500); text-align: right; flex-shrink: 0; }
+.bar-row .bar-track { flex: 1; height: 24px; background: var(--gray-100); border-radius: 4px; position: relative; overflow: hidden; }
+.bar-row .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: white; transition: width 0.6s ease; }
+.bar-row .bar-fill.l3 { background: var(--clay); }
+.bar-row .bar-fill.l1 { background: var(--blue); }
+
+/* TTT timeline vis */
+.ttt-vis { margin: 20px 0; padding: 20px; background: var(--paper); border: 1px solid var(--gray-200); border-radius: 10px; }
+.ttt-timeline { position: relative; height: 60px; margin: 16px 0 8px; }
+.ttt-axis { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gray-300); }
+.ttt-sample { position: absolute; bottom: -4px; width: 10px; height: 10px; border-radius: 50%; transform: translateX(-50%); }
+.ttt-sample.pass { background: var(--olive); }
+.ttt-sample.fail { background: var(--red); }
+.ttt-bracket { position: absolute; top: 0; height: 32px; border: 2px solid var(--purple); border-bottom: none; border-radius: 6px 6px 0 0; }
+.ttt-label { position: absolute; top: -18px; font-size: 11px; font-weight: 600; color: var(--purple); white-space: nowrap; }
+.ttt-result { position: absolute; bottom: -24px; font-size: 11px; font-weight: 600; }
+
+/* Delay comparison */
+.delay-compare { display: grid; grid-template-columns: 120px 1fr; gap: 4px; margin: 20px 0; }
+.delay-label { font-size: 12px; font-weight: 600; color: var(--slate); display: flex; align-items: center; }
+.delay-bar-container { position: relative; height: 36px; background: var(--gray-100); border-radius: 6px; overflow: hidden; }
+.delay-segment { position: absolute; top: 0; height: 100%; display: flex; align-items: center; padding-left: 6px; font-size: 10px; font-weight: 600; color: white; white-space: nowrap; border-radius: 0; }
+.delay-segment:first-child { border-radius: 6px 0 0 6px; }
+.delay-segment:last-child { border-radius: 0 6px 6px 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+th { text-align: left; padding: 8px 10px; background: var(--gray-100); border-bottom: 1.5px solid var(--gray-300); font-weight: 600; color: var(--slate); font-size: 12px; }
+td { padding: 7px 10px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+tr:hover td { background: var(--gray-100); }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; font-family: var(--mono); }
+.badge.phy { background: var(--blue-l); color: var(--blue); }
+.badge.rrc { background: #FDF8F5; color: var(--clay-d); }
+.badge.mac { background: var(--purple-l); color: var(--purple); }
+
+details { margin: 10px 0; border: 1px solid var(--gray-200); border-radius: 8px; background: var(--paper); }
+details summary { padding: 10px 14px; cursor: pointer; font-weight: 600; color: var(--slate); font-size: 13.5px; list-style: none; }
+details summary::before { content: "▸"; display: inline-block; margin-right: 8px; transition: transform 0.2s; color: var(--gray-500); }
+details[open] summary::before { transform: rotate(90deg); }
+details .inner { padding: 4px 14px 14px; font-size: 13.5px; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  nav { position: static; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .pipeline { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="nav-title">Contents</div>
+  <ul>
+    <li><a href="#pipeline">Pipeline Overview</a></li>
+    <li><a href="#l1">L1 Measurement</a></li>
+    <li><a href="#l3">L3 Filtering</a></li>
+    <li><a href="#step-response">Step Response</a></li>
+    <li><a href="#ttt">TTT Mechanism</a></li>
+    <li><a href="#ltm">LTM (L1-based)</a></li>
+    <div class="divider"></div>
+    <li><a href="#delay">Delay Comparison</a></li>
+    <li><a href="#slope-impact">Slope Guard Impact</a></li>
+    <li><a href="#spec-ref">Spec References</a></li>
+  </ul>
+</nav>
+
+<main>
+<h1>L1 vs L3 Measurement Pipeline</h1>
+<p class="subtitle">从 PHY 采样到 HO 决策的完整链路，理解每一层的延迟、精度、和对 slope guard 的影响</p>
+
+<div class="tldr">
+  <span class="label">TL;DR</span>
+  NR 测量是一条 5 级流水线。L1 measurement 每 200ms 产出一个值（FR1），L3 filter 再平滑，event evaluation + TTT 做决策。LTM 将 L1-RSRP 周期缩短到 20ms。slope guard 在 LTM 场景下天然适配（200ms 窗口内有 10 个 sample），在传统 L3 HO 下因 sample 不足而受限。
+</div>
+
+<!-- ==================== PIPELINE ==================== -->
+<h2 id="pipeline">1. Pipeline Overview</h2>
+
+<p>38.300 &sect;5.6 定义了 NR measurement model。信号从天线到 HO 决策经过 5 个 block：</p>
+
+<div class="pipeline">
+  <div class="pipe-block phy">
+    <span class="block-id">Block A</span>
+    <div class="block-title">PHY Sampling</div>
+    <div class="block-detail">SSS RE 上线性功率平均<br>127 subcarriers &times; 1 symbol<br><strong>per SSB occasion</strong></div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-block l1f">
+    <span class="block-id">Block B</span>
+    <div class="block-title">L1 Filtering</div>
+    <div class="block-detail"><strong>Implementation dependent</strong><br>累积 5 个 SMTC occasion<br>FR1: 产出周期 <strong>200ms</strong></div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-block" style="border-color:#6366f1;background:#eef2ff;">
+    <span class="block-id">Block C</span>
+    <div class="block-title">Beam Consolidation</div>
+    <div class="block-detail">多 beam → cell 级测量<br>最强 beam 或<br>最强 N beams 线性平均</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-block l3">
+    <span class="block-id">Block D</span>
+    <div class="block-title">L3 Filtering</div>
+    <div class="block-detail">IIR: F<sub>n</sub> = (1-a)F<sub>n-1</sub> + aM<sub>n</sub><br>dB 域滤波<br>k=4 &rarr; a=0.5</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-block evt">
+    <span class="block-id">Block E</span>
+    <div class="block-title">Event + TTT</div>
+    <div class="block-detail">A3: Mn - Hys > Mp + Off<br>ALL samples during TTT<br>must satisfy condition</div>
+  </div>
+  <div class="pipe-arrow">&rarr;</div>
+  <div class="pipe-block rpt">
+    <span class="block-id">Block F</span>
+    <div class="block-title">Report / Execute</div>
+    <div class="block-detail">MeasurementReport (RRC)<br>or MAC CE (LTM)<br>or CHO execution</div>
+  </div>
+</div>
+
+<p>两条路径在 Block B 之后分叉。传统 L3 measurement 经过 Block C（beam consolidation）和 Block D（L3 filter）。LTM L1 measurement <strong>跳过 C 和 D</strong>，直接用 best beam 的 L1-RSRP（per-SSB-index，不做 beam consolidation）。Slope 计算在 L3 路径上插入 Block D 之后，在 L1 路径上插入 Block B 之后。</p>
+
+<!-- ==================== L1 ==================== -->
+<h2 id="l1">2. L1 Measurement: PHY 层做什么</h2>
+
+<h3>SS-RSRP 定义</h3>
+<blockquote>
+SS-RSRP = the linear average of the power contributions of the resource elements that carry secondary synchronization signals (SSS)<br>
+<span class="spec-ref">38.215 &sect;5.1.1</span>
+</blockquote>
+<p>SSS 占 1 个 OFDM symbol 的 127 个 subcarrier。UE 对这 127 个 RE 的接收功率做线性平均，得到一个 SS-RSRP 采样。</p>
+
+<h3>L1 Measurement Period</h3>
+
+<div class="stat-row">
+  <div class="stat-card warn">
+    <div class="stat-val">200 ms</div>
+    <div class="stat-label">FR1 L1 period<br>(5 SMTC occasions)</div>
+  </div>
+  <div class="stat-card warn">
+    <div class="stat-val">400+ ms</div>
+    <div class="stat-label">FR2 L1 period<br>(beam sweeping)</div>
+  </div>
+  <div class="stat-card good">
+    <div class="stat-val">20 ms</div>
+    <div class="stat-label">LTM L1-RSRP period<br>(1 SSB occasion)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">20 ms</div>
+    <div class="stat-label">Typical SSB periodicity<br>(raw sample rate)</div>
+  </div>
+</div>
+
+<p>PHY 不是"一个 SSB 就出一个值"。38.133 &sect;9.2.5.2 规定 UE 需要在多个 SSB occasion 上累积才能产出一个满足精度要求的 L1 measurement。</p>
+
+<blockquote>
+T<sub>SSB_measurement_period_intra</sub> = max(200 ms, ceil(5 &times; K<sub>p</sub>) &times; SMTC period) &times; CSSF<sub>intra</sub><br>
+<span class="spec-ref">38.133 &sect;9.2.5.2, Table 9.2.5.2-1</span>
+</blockquote>
+
+<h3>Measurement Accuracy</h3>
+<table>
+  <tr><th>指标</th><th>Normal</th><th>Extreme</th><th>条件</th><th>Spec</th></tr>
+  <tr><td><strong>Absolute SS-RSRP</strong></td><td><strong>&plusmn;4.5 dB</strong></td><td>&plusmn;9 dB</td><td>Es/Iot &ge; -6 dB</td><td>&sect;10.1.2.1.1</td></tr>
+  <tr><td><strong>Relative SS-RSRP</strong></td><td><strong>&plusmn;2 dB</strong></td><td>&plusmn;3 dB</td><td>Es/Iot &ge; -3 dB</td><td>&sect;10.1.2.1.2</td></tr>
+</table>
+<p>对 A3 event（比较 serving 和 neighbour）而言，<strong>relative accuracy &plusmn;2 dB</strong> 更相关。</p>
+
+<!-- ==================== L3 ==================== -->
+<h2 id="l3">3. L3 Filtering: RRC 层做什么</h2>
+
+<blockquote>
+F<sub>n</sub> = (1 - a) &times; F<sub>n-1</sub> + a &times; M<sub>n</sub><br>
+where a = 1/2<sup>(k/4)</sup>, F<sub>0</sub> = M<sub>1</sub><br>
+<span class="spec-ref">38.331 &sect;5.5.3.2</span>
+</blockquote>
+
+<table>
+  <tr><th>filterCoefficient k</th><th>a = 1/2<sup>(k/4)</sup></th><th>行为</th></tr>
+  <tr><td>0</td><td>1.0</td><td>无滤波（F<sub>n</sub> = M<sub>n</sub>），完全跟踪</td></tr>
+  <tr><td><strong>4</strong></td><td><strong>0.5</strong></td><td>新旧各占一半（常用）</td></tr>
+  <tr><td>8</td><td>0.25</td><td>每次只吸收 25% 新值</td></tr>
+  <tr><td>12</td><td>0.0625</td><td>强平滑，响应慢</td></tr>
+</table>
+
+<blockquote>
+"The filtering is performed in the same domain as used for evaluation of reporting criteria ... i.e., <strong>logarithmic filtering for logarithmic measurements</strong>."<br>
+<span class="spec-ref">38.331 &sect;5.5.3.2 NOTE 2</span>
+</blockquote>
+
+<p>关键：filterCoefficient 的设计假设是每 <strong>X ms</strong> 收到一个输入，X = one L1 measurement period（FR1 典型 200ms）。如果实际输入速率不同，UE 需调整 a 来保持相同时间特性。</p>
+
+<!-- ==================== STEP RESPONSE ==================== -->
+<h2 id="step-response">4. L3 Filter Step Response</h2>
+
+<p>假设 RSRP 瞬间跳变 &Delta; dB（如 LoS &rarr; NLoS transition），k=4 (a=0.5) 时 L3 filter 的跟踪速度：</p>
+
+<div class="bar-chart">
+  <div class="bar-row">
+    <span class="bar-label">1 &times; L1 period<br>(200ms)</span>
+    <div class="bar-track"><div class="bar-fill l3" style="width:50%">50%</div></div>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">2 &times; L1 period<br>(400ms)</span>
+    <div class="bar-track"><div class="bar-fill l3" style="width:75%">75%</div></div>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">3 &times; L1 period<br>(600ms)</span>
+    <div class="bar-track"><div class="bar-fill l3" style="width:87.5%">87.5%</div></div>
+  </div>
+  <div class="bar-row">
+    <span class="bar-label">5 &times; L1 period<br>(1000ms)</span>
+    <div class="bar-track"><div class="bar-fill l3" style="width:96.9%">96.9%</div></div>
+  </div>
+</div>
+
+<p>等效时间常数 &tau; &asymp; -T<sub>sample</sub> / ln(1-a) = -200 / ln(0.5) &asymp; <strong>289 ms</strong>。</p>
+<p>这意味着一个 20 dB 的 LoS transition，L3 filter 需要 600ms 才跟踪到 17.5 dB（87.5%）。在此期间 slope 被"拉缓"——真实的瞬间跳变在 L3 output 上变成了数百 ms 的渐变。</p>
+
+<!-- ==================== TTT ==================== -->
+<h2 id="ttt">5. TTT: "ALL measurements must satisfy"</h2>
+
+<blockquote>
+"the entry condition applicable for this event ... is fulfilled for one or more applicable cells <strong>for all measurements after layer 3 filtering taken during timeToTrigger</strong>"<br>
+<span class="spec-ref">38.331 &sect;5.5.4.1</span>
+</blockquote>
+
+<p>TTT 不是"开始满足后等一段时间"。它要求 TTT 窗口内的<strong>每一个</strong> L3 filtered 测量值都满足条件。任何一个不满足 &rarr; TTT 重置。</p>
+
+<div class="ttt-vis">
+  <h3 style="margin-top:0">场景 A: TTT 成功触发</h3>
+  <p style="font-size:12px;color:var(--gray-500)">A3 entry condition 在 TTT=320ms 内持续满足（所有 sample 都 pass）</p>
+  <div class="ttt-timeline">
+    <div class="ttt-bracket" style="left:10%;width:40%"></div>
+    <div class="ttt-label" style="left:20%">TTT = 320ms</div>
+    <div class="ttt-sample pass" style="left:10%"></div>
+    <div class="ttt-sample pass" style="left:20%"></div>
+    <div class="ttt-sample pass" style="left:30%"></div>
+    <div class="ttt-sample pass" style="left:40%"></div>
+    <div class="ttt-sample pass" style="left:50%"></div>
+    <div class="ttt-axis"></div>
+    <div class="ttt-result" style="left:52%;color:var(--olive)">&#10004; Triggered &rarr; MR</div>
+  </div>
+</div>
+
+<div class="ttt-vis">
+  <h3 style="margin-top:0">场景 B: TTT 被打断后重置</h3>
+  <p style="font-size:12px;color:var(--gray-500)">中间一个 sample 不满足 &rarr; TTT 重置，从头重新计时</p>
+  <div class="ttt-timeline">
+    <div class="ttt-bracket" style="left:5%;width:25%;border-color:var(--red)"></div>
+    <div class="ttt-label" style="left:8%;color:var(--red)">TTT #1 (reset)</div>
+    <div class="ttt-sample pass" style="left:5%"></div>
+    <div class="ttt-sample pass" style="left:15%"></div>
+    <div class="ttt-sample fail" style="left:25%"></div>
+    <div class="ttt-bracket" style="left:35%;width:40%"></div>
+    <div class="ttt-label" style="left:45%">TTT #2</div>
+    <div class="ttt-sample pass" style="left:35%"></div>
+    <div class="ttt-sample pass" style="left:45%"></div>
+    <div class="ttt-sample pass" style="left:55%"></div>
+    <div class="ttt-sample pass" style="left:65%"></div>
+    <div class="ttt-sample pass" style="left:75%"></div>
+    <div class="ttt-axis"></div>
+    <div class="ttt-result" style="left:77%;color:var(--olive)">&#10004; Triggered</div>
+    <div class="ttt-result" style="left:25%;color:var(--red)">&#10008; Reset</div>
+  </div>
+</div>
+
+<details>
+  <summary>TTT 可选值 (TimeToTrigger IE)</summary>
+  <div class="inner">
+    <p><code>ms0, ms40, ms64, ms80, ms100, ms128, ms160, ms256, ms320, ms480, ms512, ms640, ms1024, ms1280, ms2560, ms5120</code></p>
+    <p>典型 mobility: <strong>ms160 ~ ms640</strong>。R2-2602960 仿真使用 <strong>ms320</strong>。</p>
+  </div>
+</details>
+
+<!-- ==================== LTM ==================== -->
+<h2 id="ltm">6. LTM: L1-Based Mobility (Rel-18/19)</h2>
+
+<p>LTM 将 measurement + event evaluation 下放到 L1/MAC 层，有两套路径：</p>
+
+<div class="compare-grid">
+  <div class="compare-card l3-card">
+    <div class="card-header"><div class="dot"></div><div class="card-title">Path A: L3-based LTM</div></div>
+    <p>仍用 L3 filter + condEventA3/A5 + TTT</p>
+    <p>只是执行端更快：MAC CE cell switch（不走 RRC Reconfiguration）</p>
+    <p><span class="badge rrc">RRC event eval</span></p>
+    <p style="font-size:12px;color:var(--gray-500)">38.331 &sect;5.3.5.18.8</p>
+  </div>
+  <div class="compare-card l1-card">
+    <div class="card-header"><div class="dot"></div><div class="card-title">Path B: L1-based LTM</div></div>
+    <p>使用 L1-RSRP + eventLTM3/5 + MAC CE</p>
+    <p>L1-RSRP period = <strong>20ms</strong>（比 L3 的 200ms 快 10x）</p>
+    <p><span class="badge mac">MAC event eval</span></p>
+    <p style="font-size:12px;color:var(--gray-500)">38.321 &sect;5.35/5.36</p>
+  </div>
+</div>
+
+<table>
+  <tr><th>LTM Event</th><th>条件</th><th>类比</th></tr>
+  <tr><td><strong>eventLTM2</strong></td><td>neighbour L1-RSRP &lt; threshold</td><td>A2</td></tr>
+  <tr><td><strong>eventLTM3</strong></td><td>neighbour &gt; serving + offset</td><td>A3</td></tr>
+  <tr><td><strong>eventLTM4</strong></td><td>neighbour L1-RSRP &gt; threshold</td><td>A4</td></tr>
+  <tr><td><strong>eventLTM5</strong></td><td>serving &lt; Th1 AND neighbour &gt; Th2</td><td>A5</td></tr>
+</table>
+
+<!-- ==================== DELAY ==================== -->
+<h2 id="delay">7. Total Delay: L3 HO vs LTM</h2>
+
+<p>从信道变化到 HO 执行的总延迟：</p>
+
+<div style="margin:20px 0">
+<h3>Traditional L3 HO</h3>
+<div class="delay-compare">
+  <div class="delay-label">L3 HO</div>
+  <div class="delay-bar-container">
+    <div class="delay-segment" style="left:0;width:22%;background:var(--blue)">L1 period<br>200ms</div>
+    <div class="delay-segment" style="left:22%;width:33%;background:var(--clay)">L3 filter<br>~300ms</div>
+    <div class="delay-segment" style="left:55%;width:35%;background:var(--purple)">TTT 320ms</div>
+    <div class="delay-segment" style="left:90%;width:10%;background:var(--olive)">MR+HO</div>
+  </div>
+</div>
+<p style="font-size:12px;color:var(--gray-500);text-align:right">Total: <strong>~900ms+</strong></p>
+
+<h3>LTM (L1-based)</h3>
+<div class="delay-compare">
+  <div class="delay-label">LTM L1</div>
+  <div class="delay-bar-container">
+    <div class="delay-segment" style="left:0;width:5%;background:var(--blue)">20ms</div>
+    <div class="delay-segment" style="left:5%;width:50%;background:var(--purple)">TTT 320ms</div>
+    <div class="delay-segment" style="left:55%;width:8%;background:var(--olive)">MAC CE</div>
+  </div>
+</div>
+<p style="font-size:12px;color:var(--gray-500);text-align:right">Total: <strong>~360ms</strong></p>
+</div>
+
+<!-- ==================== SLOPE IMPACT ==================== -->
+<h2 id="slope-impact">8. Slope Guard: L1 vs L3 的关键影响</h2>
+
+<div class="compare-grid">
+  <div class="compare-card l3-card">
+    <div class="card-header"><div class="dot"></div><div class="card-title">L3-based Slope</div></div>
+    <table style="margin:0">
+      <tr><td><strong>计算位置</strong></td><td>RRC 层，用 F<sub>n</sub> 序列</td></tr>
+      <tr><td><strong>Sample rate</strong></td><td>每 200ms 一个（FR1）</td></tr>
+      <tr><td><strong>200ms 窗口</strong></td><td style="color:var(--red);font-weight:600">1 个 sample &rarr; 无法计算 slope</td></tr>
+      <tr><td><strong>最小窗口</strong></td><td>400ms（2 个 sample）</td></tr>
+      <tr><td><strong>vs TTT 320ms</strong></td><td style="color:var(--red);font-weight:600">400ms &gt; 320ms &rarr; 冲突!</td></tr>
+      <tr><td><strong>噪声</strong></td><td>低（L3 filter 已平滑）</td></tr>
+      <tr><td><strong>延迟</strong></td><td>高（+L3 filter ~300ms）</td></tr>
+    </table>
+  </div>
+  <div class="compare-card l1-card">
+    <div class="card-header"><div class="dot"></div><div class="card-title">L1-based Slope (LTM)</div></div>
+    <table style="margin:0">
+      <tr><td><strong>计算位置</strong></td><td>PHY/MAC 层，用 L1-RSRP</td></tr>
+      <tr><td><strong>Sample rate</strong></td><td>每 20ms 一个</td></tr>
+      <tr><td><strong>200ms 窗口</strong></td><td style="color:var(--olive);font-weight:600">10 个 sample &rarr; 充分</td></tr>
+      <tr><td><strong>最小窗口</strong></td><td>40ms（2 个 sample）</td></tr>
+      <tr><td><strong>vs TTT 320ms</strong></td><td style="color:var(--olive);font-weight:600">200ms &lt; 320ms &rarr; OK</td></tr>
+      <tr><td><strong>噪声</strong></td><td>较高（需窗口内平均）</td></tr>
+      <tr><td><strong>延迟</strong></td><td>低（无 L3 filter 延迟）</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="tldr" style="border-left-color:var(--blue)">
+  <span class="label" style="color:var(--blue)">Key Insight</span>
+  Slope guard 天然适配 LTM（L1-RSRP 20ms period，200ms 窗口内 10 个 sample，slope_window &lt; TTT）。在传统 L3 HO 下，L1 measurement period (200ms) 与 TTT (320ms) 的约束互相矛盾——slope_window 需要 &ge;400ms 但必须 &lt;320ms。除非使用 raw SSB sample（每 20ms，但精度低于 38.133 要求）。
+</div>
+
+<!-- ==================== SPEC REF ==================== -->
+<h2 id="spec-ref">Spec References</h2>
+
+<details open>
+  <summary>完整引用索引</summary>
+  <div class="inner">
+<table>
+  <tr><th>内容</th><th>出处</th></tr>
+  <tr><td>L1 measurement period (FR1 intra-freq)</td><td>38.133 &sect;9.2.5.2, Table 9.2.5.2-1</td></tr>
+  <tr><td>SS-RSRP absolute accuracy FR1</td><td>38.133 &sect;10.1.2.1.1, Table 10.1.2.1.1-1</td></tr>
+  <tr><td>SS-RSRP relative accuracy FR1</td><td>38.133 &sect;10.1.2.1.2, Table 10.1.2.1.2-1</td></tr>
+  <tr><td>L3 filter formula</td><td>38.331 &sect;5.5.3.2</td></tr>
+  <tr><td>L3 filter domain (logarithmic)</td><td>38.331 &sect;5.5.3.2 NOTE 2</td></tr>
+  <tr><td>L1 filtering is impl. dependent</td><td>38.331 &sect;5.5.3.1</td></tr>
+  <tr><td>Event A3 formula</td><td>38.331 &sect;5.5.4.4</td></tr>
+  <tr><td>TTT semantics ("for ALL measurements")</td><td>38.331 &sect;5.5.4.1</td></tr>
+  <tr><td>LTM L1-RSRP period (SSB, FR1)</td><td>38.133 &sect;9.14, Table 9.14.5.1-1</td></tr>
+  <tr><td>LTM event types (eventLTM2/3/4/5)</td><td>38.331 LTM-CSI-ReportConfig</td></tr>
+  <tr><td>LTM L1-based event evaluation</td><td>38.321 &sect;5.35/5.36</td></tr>
+</table>
+  </div>
+</details>
+
+</main>
+</div>
+</body>
+</html>

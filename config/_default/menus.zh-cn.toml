@@ -11,6 +11,11 @@
   weight = 20
 
 [[main]]
+  name = "visual"
+  pageRef = "visual-thinking"
+  weight = 25
+
+[[main]]
   name = "tags"
   pageRef = "tags"
   weight = 30

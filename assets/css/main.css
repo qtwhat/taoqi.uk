@@ -28,6 +28,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   --code-bg: #f0ebe6;
   --card-border: #12121220;
   --divider: #12121218;
+  --grid-line: #12121220;
 }
 
 [data-theme="dark"] {
@@ -42,6 +43,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   --code-bg: #2a2520;
   --card-border: #e8e4df20;
   --divider: #e8e4df18;
+  --grid-line: #e8e4df20;
 }
 
 /* ----- Base ------------------------------------------------ */
@@ -495,6 +497,45 @@ body {
   color: var(--text-80);
 }
 .footer-inner a:hover { color: var(--text); }
+
+/* ----- Grid lines (WiP-inspired) ----------------------------- */
+@media (min-width: 1061px) {
+  .toc-column {
+    border-right: 1px solid var(--grid-line);
+  }
+  .notes-column {
+    border-left: 1px solid var(--grid-line);
+  }
+}
+
+/* ----- Visual thinking pages --------------------------------- */
+.visual-page {
+  padding-bottom: 80px;
+}
+.visual-header {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 40px 40px;
+}
+.visual-frame-wrap {
+  border-top: 1px solid var(--grid-line);
+  border-bottom: 1px solid var(--grid-line);
+}
+.visual-frame {
+  display: block;
+  width: 100%;
+  border: none;
+  min-height: 80vh;
+}
+.visual-notes {
+  max-width: 720px;
+  margin: 40px auto 0;
+  padding: 0 40px;
+}
+@media (max-width: 600px) {
+  .visual-header { padding: 32px 16px 24px; }
+  .visual-notes { padding: 0 16px; }
+}
 
 /* ----- Responsive ------------------------------------------ */
 @media (max-width: 1060px) {

@@ -1,0 +1,54 @@
+{{ define "main" }}
+<div class="visual-page">
+  <header class="visual-header">
+    <div class="article-meta">
+      <span class="article-category">visual thinking</span>
+      {{ $showDate := ne .Params.showDate false }}
+      {{ if and $showDate (not .Date.IsZero) }}
+        <span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.dateFormat | default "Jan 2, 2006") }}</time></span>
+      {{ end }}
+    </div>
+
+    <h1 class="article-title">{{ .Title }}</h1>
+
+    {{ with .Params.summary | default .Description }}
+      <p class="article-excerpt">{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{ with .Params.tags }}
+    <div class="tag-list">
+      {{ range . }}
+        <a href="{{ "tags/" | relURL }}{{ . | urlize }}/" class="tag">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </header>
+
+  {{ with .Params.visualSrc }}
+  <div class="visual-frame-wrap">
+    <iframe class="visual-frame" src="{{ . }}" frameborder="0" scrolling="no"></iframe>
+  </div>
+  {{ end }}
+
+  {{ with .Content }}
+  <div class="visual-notes prose">
+    {{ . }}
+  </div>
+  {{ end }}
+</div>
+
+<script>
+(function() {
+  var frame = document.querySelector('.visual-frame');
+  if (!frame) return;
+  function resize() {
+    try {
+      var h = frame.contentDocument.documentElement.scrollHeight;
+      if (h > 0) frame.style.height = h + 'px';
+    } catch(e) {}
+  }
+  frame.addEventListener('load', resize);
+  window.addEventListener('resize', resize);
+})();
+</script>
+{{ end }}
