@@ -381,6 +381,20 @@ body {
   width: 100%;
   border-radius: 2px;
 }
+/* Fixed-column grids for portrait photo sets; .wide extends into the notes column like figure.wide */
+.gallery.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.gallery.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.gallery.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.prose .gallery.wide { margin-right: -180px; }
+.gallery figcaption, .gallery .gallery-caption {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--text-50);
+  margin-top: -2px;
+}
 
 /* ----- Mobile TOC ------------------------------------------ */
 @media (max-width: 1060px) {
@@ -548,6 +562,12 @@ body {
   .notes-column { display: none; }
   .article-main { padding-top: 32px; }
   .prose figure.wide { margin-left: 0; margin-right: 0; }
+  .prose .gallery.wide { margin-right: 0; }
+  .gallery.cols-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .gallery.cols-3, .gallery.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .gallery { gap: 8px; }
 }
 @media (max-width: 600px) {
   .article-title { font-size: 1.875rem; }

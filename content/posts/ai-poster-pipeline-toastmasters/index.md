@@ -1,9 +1,9 @@
 ---
+aliases: ["/posts/tech/ai-poster-pipeline-toastmasters/"]
 title: "自动化每周的 Toastmasters 会议海报"
 date: 2026-06-01
 draft: false
 tags: ["Toastmasters", "VPPR", "AI", "Codex", "8-bit", "workflow"]
-categories: ["tech"]
 summary: "VPPR 每周都要出一张会议海报。这里分享一个把活儿交给 Claude Code 的工作流，以本期海报为例：8-bit 像素风、Zpix 中文字体、双版本、彩蛋、自动截图，到最后连画图都被 Codex 接管。现在我每周只需要给一个 theme。"
 showTableOfContents: true
 showComments: false

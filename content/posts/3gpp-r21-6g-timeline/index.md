@@ -1,9 +1,9 @@
 ---
+aliases: ["/posts/tech/3gpp-r21-6g-timeline/"]
 title: "6G 时间线（截止 202607）"
 date: 2026-07-19
 draft: false
 tags: ["3gpp", "6g", "standards", "r21"]
-categories: ["tech"]
 summary: "6 月的新加坡全会上，3GPP 把 Release 21 的 6G 时间线正式敲定了。这篇把六个里程碑日期列全，再讲讲两次全会上这些日期是怎么谈出来的。"
 showTableOfContents: true
 showComments: false

@@ -6,11 +6,6 @@
   weight = 10
 
 [[main]]
-  name = "photography"
-  pageRef = "posts/photography"
-  weight = 20
-
-[[main]]
   name = "visual"
   pageRef = "visual-thinking"
   weight = 25

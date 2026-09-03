@@ -1,9 +1,9 @@
 ---
+aliases: ["/posts/photography/first-roll/"]
 title: "第一卷胶片"
 date: 2026-04-09
 draft: false
 tags: ["film", "portra400"]
-categories: ["photography"]
 summary: "Kodak Portra 400 的第一卷试拍。"
 showTableOfContents: false
 showComments: true

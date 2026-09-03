@@ -1,9 +1,9 @@
 ---
+aliases: ["/posts/tech/fable-5-subscription-outlook/"]
 title: "Fable 5 会不会回到 Claude 订阅套餐？从 token 成本看，它并不是没戏"
 date: 2026-07-05
 draft: false
 tags: ["ai", "claude", "anthropic", "pricing", "subscription"]
-categories: ["tech"]
 summary: "Fable 5 在 7 月 7 日后会从订阅套餐移出，但 Anthropic 反复表态想让它回来。从 API 定价看，它只是 Opus 4.8 的 2x，真正的问题是用户会拿更强的模型干更大的活。我的判断：它大概率会带着有限额度回来。"
 showTableOfContents: true
 showComments: false

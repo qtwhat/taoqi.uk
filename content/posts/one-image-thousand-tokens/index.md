@@ -1,9 +1,9 @@
 ---
+aliases: ["/posts/tech/one-image-thousand-tokens/"]
 title: "一图胜千言新解"
 date: 2026-07-05
 draft: false
 tags: ["ai", "claude", "claude-code"]
-categories: ["tech"]
 summary: "677 张历史截图让 Claude Code 处理，效果出奇的好。算了笔账发现：一张图片刚好约 1000 token，老祖宗没骗我。"
 showTableOfContents: false
 showComments: false

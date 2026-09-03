@@ -1,9 +1,9 @@
 ---
+aliases: ["/posts/tech/hello-hugo/"]
 title: "用 Hugo 搭建个人博客"
 date: 2026-04-09
 draft: false
 tags: ["hugo", "blog", "tutorial"]
-categories: ["tech"]
 summary: "记录使用 Hugo + Blowfish 主题搭建个人博客的过程。"
 showTableOfContents: true
 showComments: true

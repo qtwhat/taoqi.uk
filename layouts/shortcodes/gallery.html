@@ -1,3 +1,6 @@
-<div class="gallery">
+{{- $class := .Get "class" | default "" -}}
+{{- $caption := .Get "caption" -}}
+<div class="gallery{{ with $class }} {{ . }}{{ end }}">
 {{ .Inner }}
+{{- with $caption }}<div class="gallery-caption">{{ . | markdownify }}</div>{{ end }}
 </div>

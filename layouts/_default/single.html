@@ -21,9 +21,6 @@
 
     {{/* Meta line */}}
     <div class="article-meta">
-      {{ with .Params.categories }}
-        <span class="article-category">{{ index . 0 }}</span>
-      {{ end }}
       {{ $showDate := ne .Params.showDate false }}
       {{ if and $showDate (not .Date.IsZero) }}
         <span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format (site.Params.dateFormat | default "Jan 2, 2006") }}</time></span>
