@@ -5,7 +5,7 @@ date: 2026-09-03
 draft: false
 tags: ["travel", "maastricht", "bookstore", "photo"]
 summary: "一座 13 世纪的多米尼加教堂，做过马厩、仓库、拳击场、自行车库，2006 年起变成书店。"
-showTableOfContents: false
+showTableOfContents: true
 showComments: true
 ---
 

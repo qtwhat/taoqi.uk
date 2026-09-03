@@ -386,6 +386,8 @@ body {
 .gallery.cols-3 { grid-template-columns: repeat(3, 1fr); }
 .gallery.cols-4 { grid-template-columns: repeat(4, 1fr); }
 .prose .gallery.wide { margin-right: -180px; }
+/* wide elements sit above the notes-column grid line */
+.prose figure.wide, .prose .gallery.wide { position: relative; z-index: 1; }
 .gallery figcaption, .gallery .gallery-caption {
   grid-column: 1 / -1;
   font-family: var(--font-mono);
