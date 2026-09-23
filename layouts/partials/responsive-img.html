@@ -1,0 +1,20 @@
+{{- /* 响应式图片：生成 800/1600/2400 宽三档 srcset，点击放大时加载 data-zoom-src（长边 ≤3000 的原图或缩到 3000）。
+      参数 dict: page, src, alt, class。资源不在 bundle 里时退回原样输出。 */ -}}
+{{- $r := .page.Resources.GetMatch .src -}}
+{{- if and $r (in (slice "jpg" "jpeg" "png") (strings.TrimPrefix "." (path.Ext $r.Name | lower))) -}}
+  {{- $set := slice -}}
+  {{- $display := $r -}}
+  {{- range $w := slice 800 1600 2400 -}}
+    {{- if lt $w $r.Width -}}
+      {{- $img := $r.Resize (printf "%dx jpg q84" $w) -}}
+      {{- $set = $set | append (printf "%s %dw" $img.RelPermalink $w) -}}
+      {{- if eq $w 1600 }}{{ $display = $img }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if le $r.Width 2400 }}{{ $set = $set | append (printf "%s %dw" $r.RelPermalink $r.Width) }}{{ end -}}
+  {{- $zoom := $r -}}
+  {{- if or (gt $r.Width 3000) (gt $r.Height 3000) }}{{ $zoom = $r.Fit "3000x3000 jpg q88" }}{{ end -}}
+  <img{{ with .class }} class="{{ . }}"{{ end }} src="{{ $display.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="(max-width: 700px) 100vw, 1000px" width="{{ $display.Width }}" height="{{ $display.Height }}" alt="{{ .alt }}" loading="lazy" decoding="async" data-zoom-src="{{ $zoom.RelPermalink }}" />
+{{- else -}}
+  <img{{ with .class }} class="{{ . }}"{{ end }} src="{{ with $r }}{{ .RelPermalink }}{{ else }}{{ $.src | relURL }}{{ end }}" alt="{{ .alt }}" loading="lazy" />
+{{- end -}}

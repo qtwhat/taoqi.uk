@@ -2,14 +2,8 @@
 {{- $alt := .Get "alt" | default "" -}}
 {{- $caption := .Get "caption" -}}
 {{- $class := .Get "class" | default "" -}}
-{{- $resource := .Page.Resources.GetMatch $src -}}
 <figure{{ with $class }} class="{{ . }}"{{ end }}>
-  <img
-    class="my-0 rounded-md"
-    src="{{ with $resource }}{{ .RelPermalink }}{{ else }}{{ $src | relURL }}{{ end }}"
-    alt="{{ $alt }}"
-    loading="lazy"
-  />
+  {{ partial "responsive-img.html" (dict "page" .Page "src" $src "alt" $alt "class" "my-0 rounded-md") }}
   {{- with $caption }}
   <figcaption>{{ . | markdownify }}</figcaption>
   {{- end }}

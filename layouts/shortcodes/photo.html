@@ -1,0 +1,2 @@
+{{- /* gallery 里用：{{< photo "07.jpg" "说明" >}} */ -}}
+{{- partial "responsive-img.html" (dict "page" .Page "src" (.Get 0 | default (.Get "src")) "alt" (.Get 1 | default (.Get "alt"))) -}}
