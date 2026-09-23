@@ -309,6 +309,7 @@ body {
   color: var(--text-80);
   margin: 24px 0;
   font-style: italic;
+  font-synthesis-style: none; /* 中文没有真斜体，禁止浏览器合成 */
 }
 
 .prose code {

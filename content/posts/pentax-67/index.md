@@ -16,7 +16,7 @@ showComments: true
 
 两句都是真心话。这几年关于宾得 67 的话散在十几个微信群和私聊里，这次让 Claude 从聊天记录里全部翻了出来，加上我发过的照片，整理成这一篇。
 
-{{< figure src="01.jpg" class="wide" alt="镜子里，我举着宾得 67，旁边的孩子举着手机" caption="Pentax 67II – ISCO 120mm f/2 · 2026.06 · 镜子里" >}}
+{{< figure src="01.jpg" class="wide" alt="镜子里，我举着宾得 67，旁边的孩子举着手机" caption="Pentax 67II · ISCO 120mm f/2 · 2026.06 · 镜子里" >}}
 
 ## 入坑
 
@@ -46,12 +46,12 @@ showComments: true
 
 135 那边是宾得 ME 和 Contax G2，「没几张可以看」。ME 主要赖我，没搞懂它曝光补偿的逻辑。这件事「让我断了继续购入 135 机器的念想」。
 
-{{< gallery class="cols-2 wide" caption="Pentax 67II – SMC 105mm f/2.4 – Kodak E100 · 2024" >}}
+{{< gallery class="cols-2 wide" caption="Pentax 67II · SMC 105mm f/2.4 · Kodak E100 · 2024" >}}
 <img src="07.jpg" alt="逆光雾气里的人影" loading="lazy" />
 <img src="08.jpg" alt="屋檐和积云" loading="lazy" />
 {{< /gallery >}}
 
-{{< gallery class="cols-3 wide" caption="Pentax 67II – SMC 105mm f/2.4 – Kodak E100 · 2024" >}}
+{{< gallery class="cols-3 wide" caption="Pentax 67II · SMC 105mm f/2.4 · Kodak E100 · 2024" >}}
 <img src="09.jpg" alt="塔和树枝，蓝天" loading="lazy" />
 <img src="10.jpg" alt="街上吃东西的母子" loading="lazy" />
 <img src="11.jpg" alt="仰拍屋檐，远处是塔" loading="lazy" />
@@ -79,8 +79,8 @@ showComments: true
 
 2023 年 6 月，豪哥说他准备出一台 67II。我当时在出差时买了几颗宾得的冷门头，正好缺个机身，在犹豫要不要回宾得家。然后说了实话：
 
-> 跟你收的那台宾得 67 真的是太喜欢了
-> 真的好用
+> 跟你收的那台宾得 67 真的是太喜欢了\
+> 真的好用\
 > 其他的机器都比不上
 
 豪哥问我干啥卖了。我回：「哎」「跟人换了 gf670」。
@@ -117,7 +117,7 @@ showComments: true
 
 出售文案最后也写了实话：因为还有 105 和 90，出门还是 105 居多，这颗用得少了。但一年多以后，它还在我的机身上。
 
-{{< figure src="15.jpg" class="wide" alt="男孩在店里张开双臂，嘴里叼着衣架，背后是灯光的光斑" caption="Pentax 67II – ISCO 120mm f/2 · 2026.06" >}}
+{{< figure src="15.jpg" class="wide" alt="男孩在店里张开双臂，嘴里叼着衣架，背后是灯光的光斑" caption="Pentax 67II · ISCO 120mm f/2 · 2026.06" >}}
 
 ## 测光顶
 
@@ -150,6 +150,6 @@ showComments: true
 <img src="19.jpg" alt="红衣孩子举着白碗遮脸" loading="lazy" />
 {{< /gallery >}}
 
-{{< figure src="20.jpg" class="wide" alt="黑白，玻璃墙的倒影里，抱着头的孩子和蹲着拍照的大人" caption="Pentax 67II – Foma 400 · 2026.07" >}}
+{{< figure src="20.jpg" class="wide" alt="黑白，玻璃墙的倒影里，抱着头的孩子和蹲着拍照的大人" caption="Pentax 67II · Foma 400 · 2026.07" >}}
 
 用宾得的都是好兄弟。
