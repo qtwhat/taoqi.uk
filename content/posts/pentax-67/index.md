@@ -69,6 +69,8 @@ showComments: true
 
 2025 年我清理器材，出掉了很多相机和镜头，其中也包括宾得 67 的 90mm。中画幅几乎卖光了，只留下宾得 67II 和两台禄来 6003。
 
+{{< camera-timeline "pentax-67ii" >}}
+
 {{< figure src="02.jpg" class="wide" alt="宾得 67 和哈苏并排放在桌上" caption="Pentax 67II（转接禄来镜头）和一台哈苏 · 2026.06" >}}
 
 ## 香港，印度

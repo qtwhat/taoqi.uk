@@ -1,0 +1,458 @@
+{
+ "asof": "2026-09",
+ "from": 2021,
+ "cameras": [
+  {
+   "id": "nikon-f80",
+   "name": "Nikon F80 / F80D",
+   "kind": "film",
+   "periods": [
+    {
+     "start": null,
+     "start_precision": null,
+     "end": "2025-12",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "fujifilm-x-pro3",
+   "name": "Fujifilm X-Pro3",
+   "kind": "digital",
+   "periods": [
+    {
+     "start": null,
+     "start_precision": null,
+     "end": "2022-01",
+     "end_precision": "approx"
+    }
+   ]
+  },
+  {
+   "id": "fujifilm-instax-mini90",
+   "name": "Fujifilm instax mini 90",
+   "kind": "film",
+   "periods": [
+    {
+     "start": null,
+     "start_precision": null,
+     "end": "2022-01",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "fuji-gf670",
+   "name": "Fujifilm GF670",
+   "kind": "film",
+   "periods": [
+    {
+     "start": null,
+     "start_precision": null,
+     "end": "2023-09",
+     "end_precision": "approx"
+    }
+   ]
+  },
+  {
+   "id": "rolleiflex-6006",
+   "name": "Rolleiflex 6006",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2021-02",
+     "start_precision": "approx",
+     "end": "2021-12",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "leica-m6",
+   "name": "Leica M6",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2021-04",
+     "start_precision": "exact",
+     "end": "2024-08",
+     "end_precision": "unknown"
+    },
+    {
+     "start": "2024-09",
+     "start_precision": "approx",
+     "end": "2025-05",
+     "end_precision": "approx"
+    },
+    {
+     "start": "2026-01",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "olympus-xa",
+   "name": "Olympus XA",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2021-04",
+     "start_precision": "exact",
+     "end": "2025-06",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "mamiya-6",
+   "name": "Mamiya 6",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2021-05",
+     "start_precision": "exact",
+     "end": "2022-06",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "pentax-645n2",
+   "name": "Pentax 645 / 645N2",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2021-06",
+     "start_precision": "approx",
+     "end": "2021-11",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "pentax-67ii",
+   "name": "Pentax 67II",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2021-08",
+     "start_precision": "exact",
+     "end": "2023-06",
+     "end_precision": "approx"
+    },
+    {
+     "start": "2024-05",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "rolleiflex-2-8f",
+   "name": "Rolleiflex 2.8F",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-01",
+     "start_precision": "approx",
+     "end": "2022-05",
+     "end_precision": "approx"
+    }
+   ]
+  },
+  {
+   "id": "mamiya-c220",
+   "name": "Mamiya C220",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-03",
+     "start_precision": "approx",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "leica-m3",
+   "name": "Leica M3",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-05",
+     "start_precision": "exact",
+     "end": "2022-10",
+     "end_precision": "approx"
+    },
+    {
+     "start": "2023-09",
+     "start_precision": "approx",
+     "end": "2024-04",
+     "end_precision": "approx"
+    },
+    {
+     "start": "2025-07",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "zeiss-ikon-zm",
+   "name": "Zeiss Ikon ZM",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-05",
+     "start_precision": "approx",
+     "end": "2023-03",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "fujifilm-x100v",
+   "name": "Fujifilm X100V",
+   "kind": "digital",
+   "periods": [
+    {
+     "start": "2022-06",
+     "start_precision": "approx",
+     "end": "2022-09",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "mamiya-rz67",
+   "name": "Mamiya RZ67",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-07",
+     "start_precision": "exact",
+     "end": "2023-03",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "mamiya-c330",
+   "name": "Mamiya C330",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-07",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "canon-eos-3",
+   "name": "Canon EOS 3",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-09",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": "unknown"
+    }
+   ]
+  },
+  {
+   "id": "nikon-f100",
+   "name": "Nikon F100",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2022-11",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": "unknown"
+    }
+   ]
+  },
+  {
+   "id": "rolleiflex-6003",
+   "name": "Rolleiflex 6003",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2023-02",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "shenhao-617",
+   "name": "Shenhao PTB617",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2023-07",
+     "start_precision": "approx",
+     "end": "2025-06",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "rolleiflex-3-5f",
+   "name": "Rolleiflex 3.5F",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2023-08",
+     "start_precision": "exact",
+     "end": "2025-06",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "leica-m7",
+   "name": "Leica M7",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2024-09",
+     "start_precision": "approx",
+     "end": "2025-06",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "hasselblad-flexbody",
+   "name": "Hasselblad Flexbody",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2024-09",
+     "start_precision": "approx",
+     "end": "2025-04",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "pentax-17",
+   "name": "Pentax 17",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2024-10",
+     "start_precision": "approx",
+     "end": null,
+     "end_precision": "unknown"
+    }
+   ]
+  },
+  {
+   "id": "hasselblad-xpan2",
+   "name": "Hasselblad Xpan II",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2025-01",
+     "start_precision": "exact",
+     "end": "2026-02",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "pentax-lx",
+   "name": "Pentax LX",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2025-03",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "canon-eos-5d4",
+   "name": "Canon EOS 5D4",
+   "kind": "digital",
+   "periods": [
+    {
+     "start": "2025-11",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": "unknown"
+    }
+   ]
+  },
+  {
+   "id": "fujifilm-gfx100ii",
+   "name": "Fujifilm GFX100ii",
+   "kind": "digital",
+   "periods": [
+    {
+     "start": "2025-12",
+     "start_precision": "exact",
+     "end": "2026-05",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "leica-m10",
+   "name": "Leica M10",
+   "kind": "digital",
+   "periods": [
+    {
+     "start": "2026-01",
+     "start_precision": "exact",
+     "end": "2026-05",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "contax-g2",
+   "name": "Contax G2",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2026-04",
+     "start_precision": "approx",
+     "end": "2026-05",
+     "end_precision": "approx"
+    },
+    {
+     "start": "2026-05",
+     "start_precision": "approx",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  },
+  {
+   "id": "pentax-me",
+   "name": "Pentax ME",
+   "kind": "film",
+   "periods": [
+    {
+     "start": "2026-05",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": null
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,133 @@
+{{- /*
+  相机持有时间线。数据在 data/cameras.json（按首次买入排序），由 llm-wiki 的
+  log/202609 相机评价素材/timeline/ownership.json 生成。
+  用法：{{< camera-timeline "leica-m3" >}}，多个 id 用逗号：{{< camera-timeline "rollei-6003,rollei-6006" >}}
+  样式自带固定配色，不跟随站点主题。
+*/ -}}
+{{- define "partials/inline/camtl-month.html" -}}
+  {{- $p := split . "-" -}}
+  {{- $y := int (index $p 0) -}}
+  {{- $m := int (strings.TrimLeft "0" (index $p 1)) -}}
+  {{- return add (mul $y 12) (sub $m 1) -}}
+{{- end -}}
+{{- $ids := split (.Get 0 | default (.Get "id") | default "") "," -}}
+{{- $data := site.Data.cameras -}}
+{{- $asof := partial "inline/camtl-month.html" $data.asof -}}
+{{- $y0 := int $data.from -}}
+{{- $min := mul $y0 12 -}}
+{{- $max := add $asof 1 -}}
+{{- $span := sub $max $min -}}
+{{- $hlNames := slice -}}
+{{- $hlMonths := 0 -}}
+{{- $rows := slice -}}
+{{- range $data.cameras -}}
+  {{- $on := in $ids .id -}}
+  {{- $bars := slice -}}
+  {{- range .periods -}}
+    {{- $s := $min -}}{{- $sFuzzy := true -}}
+    {{- with .start -}}{{- $s = partial "inline/camtl-month.html" . -}}{{- end -}}
+    {{- if and .start (eq .start_precision "exact") -}}{{- $sFuzzy = false -}}{{- end -}}
+    {{- if lt $s $min -}}{{- $s = $min -}}{{- $sFuzzy = true -}}{{- end -}}
+    {{- $e := $max -}}{{- $eFuzzy := false -}}{{- $live := true -}}
+    {{- with .end -}}{{- $e = add (partial "inline/camtl-month.html" .) 1 -}}{{- $live = false -}}{{- end -}}
+    {{- if and .end (ne .end_precision "exact") -}}{{- $eFuzzy = true -}}{{- end -}}
+    {{- $eu := eq .end_precision "unknown" -}}{{- if $eu -}}{{- $eFuzzy = false -}}{{- $live = false -}}{{- end -}}
+    {{- if $on -}}{{- $hlMonths = add $hlMonths (sub $e $s) -}}{{- end -}}
+    {{- $left := div (mul 100.0 (sub $s $min)) $span -}}
+    {{- $width := div (mul 100.0 (sub $e $s)) $span -}}
+    {{- $tip := printf "%s → %s" (.start | default "?") (cond $live "至今" (.end | default "?")) -}}
+    {{- $bars = $bars | append (dict "left" $left "width" $width "sf" $sFuzzy "ef" $eFuzzy "live" $live "eu" $eu "tip" $tip) -}}
+  {{- end -}}
+  {{- if $on -}}{{- $hlNames = $hlNames | append .name -}}{{- end -}}
+  {{- $rows = $rows | append (dict "name" .name "kind" .kind "on" $on "bars" $bars) -}}
+{{- end -}}
+{{- $years := div $hlMonths 12 -}}{{- $months := mod $hlMonths 12 -}}
+<figure class="camtl{{ if gt (len $hlNames) 0 }} camtl--focus{{ end }}" aria-label="我拥有过的相机时间线">
+<style>
+.camtl,.camtl *{box-sizing:border-box;margin:0;padding:0;border:0}
+.camtl{--bg:#0f1115;--line:#1d2027;--muted:#3a3f4a;--muted-d:#2f3d52;--txt:#e8eaef;--sub:#8a909b;--acc:#ff6a3d;--acc2:#ffb23d;
+  background:var(--bg);color:var(--txt);border-radius:14px;padding:20px 20px 14px;margin:2.2rem 0;
+  font:13px/1.35 ui-sans-serif,system-ui,-apple-system,"PingFang SC","Helvetica Neue",sans-serif;font-style:normal;
+  box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 30px -12px rgba(0,0,0,.45);-webkit-font-smoothing:antialiased}
+.camtl__head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.camtl__kicker{font:600 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;color:var(--sub);text-transform:uppercase}
+.camtl__title{font-size:16px;font-weight:650;margin-top:6px;letter-spacing:.01em}
+.camtl__stat{text-align:right}
+.camtl__stat b{display:block;font-size:22px;font-weight:700;line-height:1;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.camtl__stat span{font-size:11.5px;color:var(--sub)}
+.camtl__grid{position:relative}
+.camtl__row{display:grid;grid-template-columns:150px 1fr;align-items:center;height:21px}
+.camtl__name{color:var(--sub);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px}
+.camtl__track{position:relative;height:100%}
+.camtl__bar{position:absolute;top:7px;height:7px;border-radius:4px;background:var(--muted)}
+.camtl__row--digital .camtl__bar{background:var(--muted-d)}
+.camtl__bar--sf{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px);mask-image:linear-gradient(90deg,transparent,#000 14px)}
+.camtl__bar--ef{-webkit-mask-image:linear-gradient(270deg,transparent,#000 14px);mask-image:linear-gradient(270deg,transparent,#000 14px)}
+.camtl__bar--sf.camtl__bar--ef{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent);mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent)}
+.camtl__bar--eu{-webkit-mask-image:linear-gradient(90deg,#000 10%,rgba(0,0,0,.08));mask-image:linear-gradient(90deg,#000 10%,rgba(0,0,0,.08))}
+.camtl--focus .camtl__row:not(.camtl__row--on){opacity:.7}
+.camtl__row--on .camtl__name{color:#fff;font-weight:650}
+.camtl__row--on .camtl__bar{background:linear-gradient(90deg,var(--acc),var(--acc2));box-shadow:0 0 12px rgba(255,106,61,.45);top:6px;height:9px;border-radius:5px}
+.camtl__bar--live::after{content:"";position:absolute;right:-3px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:inherit;box-shadow:0 0 0 3px var(--bg)}
+.camtl__row--on .camtl__bar--live::after{background:var(--acc2)}
+.camtl__vl{position:absolute;top:0;bottom:22px;width:1px;background:var(--line)}
+.camtl__now{position:absolute;top:-4px;bottom:22px;width:0;border-left:1px dashed rgba(255,178,61,.55)}
+.camtl__axis{position:relative;height:22px;margin-left:150px}
+.camtl__yr{position:absolute;top:6px;transform:translateX(3px);font:500 10.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--sub)}
+.camtl__lines{position:absolute;left:150px;right:0;top:0;bottom:0;pointer-events:none}
+.camtl .camtl__legend{display:flex;gap:16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--sub);font-size:11px;flex-wrap:wrap}
+.camtl .camtl__legend span{color:var(--sub)}
+.camtl__legend i{display:inline-block;width:14px;height:6px;border-radius:3px;margin-right:6px;vertical-align:1px}
+@media (max-width:640px){
+  .camtl{padding:16px 12px 12px;border-radius:12px}
+  .camtl__row{grid-template-columns:104px 1fr;height:19px}
+  .camtl__name{font-size:11px}
+  .camtl__lines{left:104px}
+  .camtl__axis{margin-left:104px}
+  .camtl__yr{font-size:9.5px}
+}
+</style>
+<div class="camtl__head">
+  <div>
+    <div class="camtl__kicker">Camera timeline · {{ $y0 }} → {{ index (split $data.asof "-") 0 }}</div>
+    <div class="camtl__title">我拥有过的相机</div>
+  </div>
+  {{- if gt (len $hlNames) 0 }}
+  <div class="camtl__stat">
+    <b>{{ if gt $years 0 }}{{ $years }} 年 {{ end }}{{ if or (gt $months 0) (eq $years 0) }}{{ $months }} 个月{{ end }}</b>
+    <span>{{ delimit $hlNames " / " }} 在手上的时间</span>
+  </div>
+  {{- end }}
+</div>
+<div class="camtl__grid">
+  <div class="camtl__lines">
+    {{- range $i, $y := seq $y0 (index (split $data.asof "-") 0 | int) }}
+    <div class="camtl__vl" style="left:{{ div (mul 100.0 (sub (mul $y 12) $min)) $span }}%"></div>
+    {{- end }}
+    <div class="camtl__now" style="left:{{ div (mul 100.0 (sub $max $min)) $span }}%"></div>
+  </div>
+  {{- range $rows }}
+  <div class="camtl__row{{ if eq .kind "digital" }} camtl__row--digital{{ end }}{{ if .on }} camtl__row--on{{ end }}">
+    <div class="camtl__name" title="{{ .name }}">{{ .name }}</div>
+    <div class="camtl__track">
+      {{- range .bars }}
+      <div class="camtl__bar{{ if .sf }} camtl__bar--sf{{ end }}{{ if .ef }} camtl__bar--ef{{ end }}{{ if .live }} camtl__bar--live{{ end }}{{ if .eu }} camtl__bar--eu{{ end }}" style="left:{{ .left }}%;width:{{ .width }}%" title="{{ .tip }}"></div>
+      {{- end }}
+    </div>
+  </div>
+  {{- end }}
+  <div class="camtl__axis">
+    {{- range seq $y0 (index (split $data.asof "-") 0 | int) }}
+    <span class="camtl__yr" style="left:{{ div (mul 100.0 (sub (mul . 12) $min)) $span }}%">{{ . }}</span>
+    {{- end }}
+  </div>
+</div>
+<div class="camtl__legend">
+  <span><i style="background:linear-gradient(90deg,#ff6a3d,#ffb23d)"></i>本篇的相机</span>
+  <span><i style="background:#3a3f4a"></i>胶片</span>
+  <span><i style="background:#2f3d52"></i>数码</span>
+  <span><i style="background:linear-gradient(90deg,transparent,#3a3f4a)"></i>日期是推算的</span>
+  <span><i style="background:linear-gradient(90deg,#3a3f4a,rgba(58,63,74,.1));width:26px"></i>不知道哪天出手的</span>
+  <span>● 还在手上</span>
+</div>
+</figure>
