@@ -20,6 +20,36 @@ showComments: true
 
 我们约在 2 月的一个周日中午当面交易，他说到时候顺便教我怎么用。最后大概五千五拿下。
 
+## 第一卷
+
+第一卷装的是电影卷，柯达 5207（Vision3 250D）。电影卷要走 ECN-2 的冲洗流程，普通的彩色冲洗不行，是蛋哥帮我冲的，没收钱。
+
+那是 2021 年春节前，拍的都是家里：儿子坐在餐椅上，桌上的猪肚鸡，他妈妈抱着他。扫描的时候连齿孔一起扫了进去。
+
+整卷十张，都放在这里。
+
+{{< gallery class="cols-3 wide" >}}
+{{< photo "first-01.jpg" "儿子坐在餐椅上，抬头看着镜头" >}}
+{{< photo "first-02.jpg" "儿子转头看向窗外" >}}
+{{< photo "first-03.jpg" "猪肚鸡上桌，有人用筷子在分" >}}
+{{< /gallery >}}
+
+{{< gallery class="cols-3 wide" >}}
+{{< photo "first-04.jpg" "他妈妈抱着他，两人脸贴着脸" >}}
+{{< photo "first-05.jpg" "儿子亲了妈妈一口，妈妈张大了嘴" >}}
+{{< photo "first-06.jpg" "妈妈亲儿子的脸，儿子笑开了" >}}
+{{< /gallery >}}
+
+{{< gallery class="cols-2 wide" >}}
+{{< photo "first-07.jpg" "妈妈从后面抱着儿子，两人看着镜头" >}}
+{{< photo "first-08.jpg" "儿子靠在妈妈脸边，仰着头笑" >}}
+{{< /gallery >}}
+
+{{< gallery class="cols-2 wide" caption="Rollei 6006 · Kodak 5207 · 2021.02 · 第一卷" >}}
+{{< photo "first-09.jpg" "儿子盘腿坐在床上" >}}
+{{< photo "first-10.jpg" "儿子坐在红色床单上，手里拿着东西，抬头看" >}}
+{{< /gallery >}}
+
 ## 从数码过来
 
 刚开始，很多事情都不习惯。
