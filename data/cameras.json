@@ -1,17 +1,18 @@
 {
  "asof": "2026-09",
- "from": 2021,
+ "from": 2020,
  "cameras": [
   {
-   "id": "nikon-f80",
-   "name": "Nikon F80 / F80D",
+   "id": "fujifilm-instax-mini90",
+   "name": "Fujifilm instax mini 90",
    "kind": "film",
+   "format": "拍立得",
    "periods": [
     {
      "start": null,
      "start_precision": null,
-     "end": "2025-12",
-     "end_precision": "exact"
+     "end": "2022-01",
+     "end_precision": "approx"
     }
    ]
   },
@@ -19,38 +20,13 @@
    "id": "fujifilm-x-pro3",
    "name": "Fujifilm X-Pro3",
    "kind": "digital",
+   "format": "数码",
    "periods": [
     {
-     "start": null,
-     "start_precision": null,
-     "end": "2022-01",
-     "end_precision": "approx"
-    }
-   ]
-  },
-  {
-   "id": "fujifilm-instax-mini90",
-   "name": "Fujifilm instax mini 90",
-   "kind": "film",
-   "periods": [
-    {
-     "start": null,
-     "start_precision": null,
-     "end": "2022-01",
+     "start": "2020-11",
+     "start_precision": "approx",
+     "end": "2021-12",
      "end_precision": "exact"
-    }
-   ]
-  },
-  {
-   "id": "fuji-gf670",
-   "name": "Fujifilm GF670",
-   "kind": "film",
-   "periods": [
-    {
-     "start": null,
-     "start_precision": null,
-     "end": "2023-09",
-     "end_precision": "approx"
     }
    ]
   },
@@ -58,6 +34,7 @@
    "id": "rolleiflex-6006",
    "name": "Rolleiflex 6006",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2021-02",
@@ -68,52 +45,21 @@
    ]
   },
   {
-   "id": "leica-m6",
-   "name": "Leica M6",
-   "kind": "film",
-   "periods": [
-    {
-     "start": "2021-04",
-     "start_precision": "exact",
-     "end": "2024-08",
-     "end_precision": "unknown"
-    },
-    {
-     "start": "2024-09",
-     "start_precision": "approx",
-     "end": "2025-05",
-     "end_precision": "approx"
-    },
-    {
-     "start": "2026-01",
-     "start_precision": "exact",
-     "end": null,
-     "end_precision": null
-    }
-   ]
-  },
-  {
    "id": "olympus-xa",
    "name": "Olympus XA",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2021-04",
      "start_precision": "exact",
-     "end": "2025-06",
+     "end": "2022-03",
      "end_precision": "exact"
-    }
-   ]
-  },
-  {
-   "id": "mamiya-6",
-   "name": "Mamiya 6",
-   "kind": "film",
-   "periods": [
+    },
     {
-     "start": "2021-05",
-     "start_precision": "exact",
-     "end": "2022-06",
+     "start": "2023-08",
+     "start_precision": "approx",
+     "end": "2025-06",
      "end_precision": "exact"
     }
    ]
@@ -122,11 +68,26 @@
    "id": "pentax-645n2",
    "name": "Pentax 645 / 645N2",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
-     "start": "2021-06",
-     "start_precision": "approx",
+     "start": "2021-05",
+     "start_precision": "exact",
      "end": "2021-11",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
+   "id": "mamiya-6",
+   "name": "Mamiya 6",
+   "kind": "film",
+   "format": "120",
+   "periods": [
+    {
+     "start": "2021-05",
+     "start_precision": "exact",
+     "end": "2021-06",
      "end_precision": "exact"
     }
    ]
@@ -135,11 +96,12 @@
    "id": "pentax-67ii",
    "name": "Pentax 67II",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2021-08",
      "start_precision": "exact",
-     "end": "2023-06",
+     "end": "2022-10",
      "end_precision": "approx"
     },
     {
@@ -154,10 +116,11 @@
    "id": "rolleiflex-2-8f",
    "name": "Rolleiflex 2.8F",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
-     "start": "2022-01",
-     "start_precision": "approx",
+     "start": "2021-12",
+     "start_precision": "exact",
      "end": "2022-05",
      "end_precision": "approx"
     }
@@ -167,10 +130,11 @@
    "id": "mamiya-c220",
    "name": "Mamiya C220",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2022-03",
-     "start_precision": "approx",
+     "start_precision": "exact",
      "end": null,
      "end_precision": null
     }
@@ -180,6 +144,7 @@
    "id": "leica-m3",
    "name": "Leica M3",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2022-05",
@@ -205,6 +170,7 @@
    "id": "zeiss-ikon-zm",
    "name": "Zeiss Ikon ZM",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2022-05",
@@ -218,12 +184,13 @@
    "id": "fujifilm-x100v",
    "name": "Fujifilm X100V",
    "kind": "digital",
+   "format": "数码",
    "periods": [
     {
      "start": "2022-06",
-     "start_precision": "approx",
+     "start_precision": "exact",
      "end": "2022-09",
-     "end_precision": "exact"
+     "end_precision": "approx"
     }
    ]
   },
@@ -231,6 +198,7 @@
    "id": "mamiya-rz67",
    "name": "Mamiya RZ67",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2022-07",
@@ -244,6 +212,7 @@
    "id": "mamiya-c330",
    "name": "Mamiya C330",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2022-07",
@@ -257,6 +226,7 @@
    "id": "canon-eos-3",
    "name": "Canon EOS 3",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2022-09",
@@ -267,9 +237,24 @@
    ]
   },
   {
+   "id": "fuji-gf670",
+   "name": "Fujifilm GF670",
+   "kind": "film",
+   "format": "120",
+   "periods": [
+    {
+     "start": "2022-10",
+     "start_precision": "approx",
+     "end": "2023-01",
+     "end_precision": "approx"
+    }
+   ]
+  },
+  {
    "id": "nikon-f100",
    "name": "Nikon F100",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2022-11",
@@ -283,6 +268,7 @@
    "id": "rolleiflex-6003",
    "name": "Rolleiflex 6003",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2023-02",
@@ -293,9 +279,38 @@
    ]
   },
   {
+   "id": "leica-m6",
+   "name": "Leica M6",
+   "kind": "film",
+   "format": "135",
+   "periods": [
+    {
+     "start": "2023-03",
+     "start_precision": "exact",
+     "end": "2023-05",
+     "end_precision": "approx"
+    }
+   ]
+  },
+  {
+   "id": "nikon-f80",
+   "name": "Nikon F80 / F80D",
+   "kind": "film",
+   "format": "135",
+   "periods": [
+    {
+     "start": "2023-03",
+     "start_precision": "exact",
+     "end": null,
+     "end_precision": "unknown"
+    }
+   ]
+  },
+  {
    "id": "shenhao-617",
    "name": "Shenhao PTB617",
    "kind": "film",
+   "format": "宽幅",
    "periods": [
     {
      "start": "2023-07",
@@ -309,6 +324,7 @@
    "id": "rolleiflex-3-5f",
    "name": "Rolleiflex 3.5F",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2023-08",
@@ -319,22 +335,10 @@
    ]
   },
   {
-   "id": "leica-m7",
-   "name": "Leica M7",
-   "kind": "film",
-   "periods": [
-    {
-     "start": "2024-09",
-     "start_precision": "approx",
-     "end": "2025-06",
-     "end_precision": "exact"
-    }
-   ]
-  },
-  {
    "id": "hasselblad-flexbody",
    "name": "Hasselblad Flexbody",
    "kind": "film",
+   "format": "120",
    "periods": [
     {
      "start": "2024-09",
@@ -348,6 +352,7 @@
    "id": "pentax-17",
    "name": "Pentax 17",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2024-10",
@@ -361,6 +366,7 @@
    "id": "hasselblad-xpan2",
    "name": "Hasselblad Xpan II",
    "kind": "film",
+   "format": "宽幅",
    "periods": [
     {
      "start": "2025-01",
@@ -371,9 +377,24 @@
    ]
   },
   {
+   "id": "leica-m7",
+   "name": "Leica M7",
+   "kind": "film",
+   "format": "135",
+   "periods": [
+    {
+     "start": "2025-02",
+     "start_precision": "approx",
+     "end": "2025-06",
+     "end_precision": "exact"
+    }
+   ]
+  },
+  {
    "id": "pentax-lx",
    "name": "Pentax LX",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2025-03",
@@ -387,6 +408,7 @@
    "id": "canon-eos-5d4",
    "name": "Canon EOS 5D4",
    "kind": "digital",
+   "format": "数码",
    "periods": [
     {
      "start": "2025-11",
@@ -400,6 +422,7 @@
    "id": "fujifilm-gfx100ii",
    "name": "Fujifilm GFX100ii",
    "kind": "digital",
+   "format": "数码",
    "periods": [
     {
      "start": "2025-12",
@@ -413,6 +436,7 @@
    "id": "leica-m10",
    "name": "Leica M10",
    "kind": "digital",
+   "format": "数码",
    "periods": [
     {
      "start": "2026-01",
@@ -426,6 +450,7 @@
    "id": "contax-g2",
    "name": "Contax G2",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2026-04",
@@ -445,6 +470,7 @@
    "id": "pentax-me",
    "name": "Pentax ME",
    "kind": "film",
+   "format": "135",
    "periods": [
     {
      "start": "2026-05",
